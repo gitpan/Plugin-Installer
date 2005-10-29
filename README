@@ -1,0 +1,23 @@
+Plugin::Installer is a top-half handler for 
+Plugin::Language::* modules. Their AUTOLOAD 
+blocks trap un-installed plugins, pass them to 
+the compiler, and handle the returned coderef.
+
+Plugin::Installer takes whatever referent the
+caller hands back and installs it via a glob-ref
+as the name the method was invoked as. This
+allows the compiler to hand back non-code-ref
+values for installation into a namespace as 
+hashes, arrays, etc.
+
+
+Normal plugin use will have a handler and compiler:
+
+    package plugin;
+
+    use base qw( Plugin::Installer Plugin::Language::DML );
+
+with the Language defining a "compiler" method 
+(passed the object and name) and the 
+Plugin::Installer locting the compiler and dealing
+with post-compile dispatch and symbol install.

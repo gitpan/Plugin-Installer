@@ -1,0 +1,7 @@
+Makefile.PL
+MANIFEST
+README
+Changes
+t/01.t
+lib/Plugin/Installer.pm
+META.yml                                 Module meta-data (added by MakeMaker)
