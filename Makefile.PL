@@ -4,12 +4,12 @@ WriteMakefile
 (
         NAME            => 'Plugin::Installer',
 
-        VERSION         => '0.01',
+        VERSION         => '0.02',
 
         ABSTRACT                => <<'END',
-Installer top-end handler for Plugin::Language::*
-modules. AUTOLOAD dispatches to the compiler, optionally
-installes and dispatches the result.
+Installer top-end handler for plugins. AUTOLOAD 
+dispatches to the compiler, optionally installes 
+returned referents and dispatches coderefs.
 END
 
         PREREQ_PM =>
