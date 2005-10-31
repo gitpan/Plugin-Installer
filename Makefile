@@ -13,7 +13,7 @@
 #     ABSTRACT => q[Installer top-end handler for plugins. AUTOLOAD  dispatches to the compiler, optionally installes  returned referents and dispatches coderefs. ]
 #     NAME => q[Plugin::Installer]
 #     PREREQ_PM => { Scalar::Util=>q[0], strict=>q[0], Test::Simple=>q[0], Symbol=>q[0], Carp=>q[0] }
-#     VERSION => q[0.02]
+#     VERSION => q[0.03]
 
 # --- MakeMaker post_initialize section:
 
@@ -53,11 +53,11 @@ DIRFILESEP = /
 DFSEP = $(DIRFILESEP)
 NAME = Plugin::Installer
 NAME_SYM = Plugin_Installer
-VERSION = 0.02
+VERSION = 0.03
 VERSION_MACRO = VERSION
-VERSION_SYM = 0_02
+VERSION_SYM = 0_03
 DEFINE_VERSION = -D$(VERSION_MACRO)=\"$(VERSION)\"
-XS_VERSION = 0.02
+XS_VERSION = 0.03
 XS_VERSION_MACRO = XS_VERSION
 XS_DEFINE_VERSION = -D$(XS_VERSION_MACRO)=\"$(XS_VERSION)\"
 INST_ARCHLIB = blib/arch
@@ -151,7 +151,8 @@ C_FILES  =
 O_FILES  = 
 H_FILES  = 
 MAN1PODS = 
-MAN3PODS = lib/Plugin/Installer.pm
+MAN3PODS = lib/Plugin/Dispatcher.pm \
+	lib/Plugin/Installer.pm
 
 # Where is the Config information that we are using/depend on
 CONFIGDEP = $(PERL_ARCHLIB)$(DFSEP)Config.pm $(PERL_INC)$(DFSEP)config.h
@@ -173,9 +174,12 @@ PERL_ARCHIVE       =
 PERL_ARCHIVE_AFTER = 
 
 
-TO_INST_PM = lib/Plugin/Installer.pm
+TO_INST_PM = lib/Plugin/Dispatcher.pm \
+	lib/Plugin/Installer.pm
 
-PM_TO_BLIB = lib/Plugin/Installer.pm \
+PM_TO_BLIB = lib/Plugin/Dispatcher.pm \
+	blib/lib/Plugin/Dispatcher.pm \
+	lib/Plugin/Installer.pm \
 	blib/lib/Plugin/Installer.pm
 
 
@@ -243,7 +247,7 @@ RCS_LABEL = rcs -Nv$(VERSION_SYM): -q
 DIST_CP = best
 DIST_DEFAULT = tardist
 DISTNAME = Plugin-Installer
-DISTVNAME = Plugin-Installer-0.02
+DISTVNAME = Plugin-Installer-0.03
 
 
 # --- MakeMaker macro section:
@@ -396,9 +400,12 @@ POD2MAN = $(POD2MAN_EXE)
 
 
 manifypods : pure_all  \
+	lib/Plugin/Dispatcher.pm \
 	lib/Plugin/Installer.pm \
+	lib/Plugin/Dispatcher.pm \
 	lib/Plugin/Installer.pm
 	$(NOECHO) $(POD2MAN) --section=3 --perm_rw=$(PERM_RW) \
+	  lib/Plugin/Dispatcher.pm $(INST_MAN3DIR)/Plugin::Dispatcher.$(MAN3EXT) \
 	  lib/Plugin/Installer.pm $(INST_MAN3DIR)/Plugin::Installer.$(MAN3EXT) 
 
 
@@ -466,7 +473,7 @@ metafile : create_distdir
 	$(NOECHO) $(ECHO) '# http://module-build.sourceforge.net/META-spec.html' > META_new.yml
 	$(NOECHO) $(ECHO) '#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#' >> META_new.yml
 	$(NOECHO) $(ECHO) 'name:         Plugin-Installer' >> META_new.yml
-	$(NOECHO) $(ECHO) 'version:      0.02' >> META_new.yml
+	$(NOECHO) $(ECHO) 'version:      0.03' >> META_new.yml
 	$(NOECHO) $(ECHO) 'version_from: ' >> META_new.yml
 	$(NOECHO) $(ECHO) 'installdirs:  site' >> META_new.yml
 	$(NOECHO) $(ECHO) 'requires:' >> META_new.yml
@@ -764,7 +771,7 @@ testdb_static :: testdb_dynamic
 # --- MakeMaker ppd section:
 # Creates a PPD (Perl Package Description) for a binary distribution.
 ppd:
-	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0,02,0,0">' > $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0,03,0,0">' > $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <TITLE>$(DISTNAME)</TITLE>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <ABSTRACT>Installer top-end handler for plugins. AUTOLOAD \ndispatches to the compiler, optionally installes \nreturned referents and dispatches coderefs.\n</ABSTRACT>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <AUTHOR></AUTHOR>' >> $(DISTNAME).ppd
@@ -785,6 +792,7 @@ ppd:
 
 pm_to_blib : $(TO_INST_PM)
 	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', '\''$(PM_FILTER)'\'')' \
+	  lib/Plugin/Dispatcher.pm blib/lib/Plugin/Dispatcher.pm \
 	  lib/Plugin/Installer.pm blib/lib/Plugin/Installer.pm 
 	$(NOECHO) $(TOUCH) pm_to_blib
 

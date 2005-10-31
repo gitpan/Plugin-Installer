@@ -1,7 +1,9 @@
-Makefile.PL
-MANIFEST
-README
-Changes
-t/01.t
-lib/Plugin/Installer.pm
+./lib/Plugin/Installer.pm
+./README
+./Makefile.PL
+./MANIFEST
+./Changes
+./Makefile
+./example-code/simple-compile
+./t/01.t
 META.yml                                 Module meta-data (added by MakeMaker)

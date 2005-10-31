@@ -1,0 +1,52 @@
+#!/opt/bin/perl
+
+use strict;
+use blib;
+
+my $foo = bless {}, 'dispatch';
+my $bar = bless {}, 'install';
+
+$foo->frobnicate;
+$foo->frobnicate;
+
+$bar->frobnicate;
+$bar->frobnicate;
+
+exit 0;
+
+package dispatch;
+
+use base qw( Plugin::Dispatcher );
+
+sub compile
+{
+    $DB::single = 1;
+
+    my $obj     = shift;
+    my $name    = shift;
+
+    print "\nRecompile with each use:\n";
+
+    sub { print "\t$name\n" }
+}
+
+
+package install;
+
+use strict;
+
+use base qw( Plugin::Installer );
+
+sub compile
+{
+    $DB::single = 1;
+
+    my $obj     = shift;
+    my $name    = shift;
+
+    print "\nCompile only once:\n";
+
+    sub { print "\t$name\n" }
+}
+
+__END__
