@@ -6,6 +6,10 @@
 # Implements AUTOLOAD, DESTROY. 
 ########################################################################
 
+########################################################################
+# housekeeping
+########################################################################
+
 package Plugin::Installer;
 
 use strict;
@@ -13,6 +17,12 @@ use strict;
 use Carp;
 use Symbol;
 use Scalar::Util qw( &reftype );
+
+########################################################################
+# package variables
+########################################################################
+
+our $VERSION = '0.10';
 
 # default is to install and dispatch (iff possible) 
 # the compiler results; not storing special metadata
@@ -30,6 +40,22 @@ my $default_meta =
     alt_package => '',
 
 };
+
+########################################################################
+# methods
+########################################################################
+
+########################################################################
+# AUTOLOAD block does the deed.
+# trick here is to dispatch the plugin method calls into the
+# compiler. result can be a referent or false; referents are
+# installed as $AUTOLOAD, false is silently ignored; coderefs
+# are dispatched via GOTO.
+#
+# the object has an "install_meta" key temporarily inserted
+# into it for passing back install and dispatch data or 
+# storing the updated install_meta value back as a default
+# for the class.
 
 our $AUTOLOAD = '';
 
@@ -117,21 +143,23 @@ AUTOLOAD
 
 }
 
+########################################################################
+# stub destroy, saves hitting the AUTOLOAD
+# for every destructor. classes that need 
+# their own DESTROY can override this easily
+# enough...
+# 
+# the object doesn't have to bookkeep any of
+# the class-based metadata so there isn't any
+# metadata maintinence here.
+
 DESTROY
 {
-    # stub destroy, saves hitting the AUTOLOAD
-    # for every destructor. classes that need 
-    # their own DESTROY can override this easily
-    # enough...
-    # 
-    # the object doesn't have to bookkeep any of
-    # the class-based metadata so there isn't any
-    # metadata maintinence here.
 
     ()
 }
 
-# keep use happy
+# keep require happy
 
 1
 
@@ -164,10 +192,16 @@ dispatch it using goto.
 
 =head1 DESCRIPTION
 
-The Plugin framework gives runtime compile, 
-install, and dispatch of user-defined code.
-The code doesn't have to be Perl, just something
-that the object handling it can compile. 
+The goal of this module is to provide a simple, 
+flexable interface for developing plugin 
+languages. Any language that can store its
+object data as a hash and implement a "compile"
+method that takes the method name as an argument
+can use this class.  The Plugin framework gives 
+runtime compile, install, and dispatch of 
+user-defined code.  The code doesn't have to be 
+Perl, just something that the object handling it 
+can compile. 
 
 The installer is language-agnostic: in fact it
 has no idea what the object does with the name
@@ -177,6 +211,20 @@ coderefs. This is intended as a convienence class
 that standardizes the top half of any plugin 
 language.
 
+Note that any referent returned by the compiler
+is installed. Handing back a hashref can deposit
+a hash into the caller's namespace. This allows
+for plugins to handle command line switches
+(via GetoptFoo and a hashref) or manipulate 
+queues (by handing back an [udpated] arrayref.
+
+By default coderefs are dispatched via goto, 
+which allows the obvious use of compiling the 
+plugin to an anonymous sub for later use. This
+make the plugins something of a trampoline 
+object, with the exception that the "trampolines"
+are the class' methods rather than the object
+itself.
 
 =head2 AUTOLOAD
 
@@ -304,6 +352,12 @@ Installing symbols without resoting to no strict 'refs'.
 =item Scalar::Util 
 
 Extracting the basetype of a blessed referent.
+
+=item Object::Trampoline
+
+Trampoline object: construction and initilization
+are put off until a method is called on the 
+compiled object.
 
 =back
 

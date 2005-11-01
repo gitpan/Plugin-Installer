@@ -4,7 +4,7 @@ WriteMakefile
 (
         NAME            => 'Plugin::Installer',
 
-        VERSION         => '0.03',
+        VERSION         => '0.04',
 
         ABSTRACT                => <<'END',
 Installer top-end handler for plugins. AUTOLOAD 

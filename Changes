@@ -1,6 +1,17 @@
 
 Change log, most recent at the top.
 
+Mon Oct 31 08:57:04 EST 2005
+
+- Added $VERSION to the .pm (oops...).
+
+- Split test into two files: use_ok and everything else.
+
+- POD
+
+- Comments
+
+
 Sun Oct 30 17:21:15 EST 2005
 
 - Updated POD

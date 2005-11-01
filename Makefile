@@ -13,7 +13,7 @@
 #     ABSTRACT => q[Installer top-end handler for plugins. AUTOLOAD  dispatches to the compiler, optionally installes  returned referents and dispatches coderefs. ]
 #     NAME => q[Plugin::Installer]
 #     PREREQ_PM => { Scalar::Util=>q[0], strict=>q[0], Test::Simple=>q[0], Symbol=>q[0], Carp=>q[0] }
-#     VERSION => q[0.03]
+#     VERSION => q[0.04]
 
 # --- MakeMaker post_initialize section:
 
@@ -53,11 +53,11 @@ DIRFILESEP = /
 DFSEP = $(DIRFILESEP)
 NAME = Plugin::Installer
 NAME_SYM = Plugin_Installer
-VERSION = 0.03
+VERSION = 0.04
 VERSION_MACRO = VERSION
-VERSION_SYM = 0_03
+VERSION_SYM = 0_04
 DEFINE_VERSION = -D$(VERSION_MACRO)=\"$(VERSION)\"
-XS_VERSION = 0.03
+XS_VERSION = 0.04
 XS_VERSION_MACRO = XS_VERSION
 XS_DEFINE_VERSION = -D$(XS_VERSION_MACRO)=\"$(XS_VERSION)\"
 INST_ARCHLIB = blib/arch
@@ -247,7 +247,7 @@ RCS_LABEL = rcs -Nv$(VERSION_SYM): -q
 DIST_CP = best
 DIST_DEFAULT = tardist
 DISTNAME = Plugin-Installer
-DISTVNAME = Plugin-Installer-0.03
+DISTVNAME = Plugin-Installer-0.04
 
 
 # --- MakeMaker macro section:
@@ -473,7 +473,7 @@ metafile : create_distdir
 	$(NOECHO) $(ECHO) '# http://module-build.sourceforge.net/META-spec.html' > META_new.yml
 	$(NOECHO) $(ECHO) '#XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#' >> META_new.yml
 	$(NOECHO) $(ECHO) 'name:         Plugin-Installer' >> META_new.yml
-	$(NOECHO) $(ECHO) 'version:      0.03' >> META_new.yml
+	$(NOECHO) $(ECHO) 'version:      0.04' >> META_new.yml
 	$(NOECHO) $(ECHO) 'version_from: ' >> META_new.yml
 	$(NOECHO) $(ECHO) 'installdirs:  site' >> META_new.yml
 	$(NOECHO) $(ECHO) 'requires:' >> META_new.yml
@@ -771,7 +771,7 @@ testdb_static :: testdb_dynamic
 # --- MakeMaker ppd section:
 # Creates a PPD (Perl Package Description) for a binary distribution.
 ppd:
-	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0,03,0,0">' > $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0,04,0,0">' > $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <TITLE>$(DISTNAME)</TITLE>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <ABSTRACT>Installer top-end handler for plugins. AUTOLOAD \ndispatches to the compiler, optionally installes \nreturned referents and dispatches coderefs.\n</ABSTRACT>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <AUTHOR></AUTHOR>' >> $(DISTNAME).ppd
